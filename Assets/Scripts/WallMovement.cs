@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class WallMovement : MonoBehaviour
@@ -8,6 +7,6 @@ public class WallMovement : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(new Vector2(0, -speed) *  Time.deltaTime);    
+        transform.Translate(new Vector2(0, -speed) *  Time.deltaTime);  
     }
 }

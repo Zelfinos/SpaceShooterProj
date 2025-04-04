@@ -10,7 +10,6 @@ public class Inputs : MonoBehaviour
     [SerializeField]
     private Transform myTransform;
 
-    [SerializeField]
     private GameObject Thrusters;
 
     [SerializeField]
@@ -32,25 +31,32 @@ public class Inputs : MonoBehaviour
     private KeyCode Right;
 
     [SerializeField]
-    private Quaternion originalRotation;
+    private Vector3 turnAngle;
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
 
+    private Transform transformSprite;
     private Animator animator;
+
+    private Rigidbody2D rb2D;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        rb2D = gameObject.GetComponent<Rigidbody2D>();
+        animator = spriteRenderer.GetComponent<Animator>();
+        transformSprite = spriteRenderer.GetComponent<Transform>();
+        Thrusters = GameObject.Find("Thrusters");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Rigidbody2D rb2D = Player.GetComponent<Rigidbody2D>();
+        ThrustersOff();
+
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(Down))
         {
-            //Debug.Log("Joueur se déplace vers le bas");
-            //myTransform.Translate(Vector3.down * coeffMove * Time.deltaTime);
             rb2D.MovePosition(rb2D.position + Vector2.down * coeffMove * Time.deltaTime);
             ThrustersOn();
             animator.Play("Idle");
@@ -58,9 +64,6 @@ public class Inputs : MonoBehaviour
         
         else if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(Up))
         {
-            Debug.Log("Joueur se déplace vers le haut");
-            //ChangeSprite(straight);
-            //myTransform.Translate(Vector3.up * coeffMove * Time.deltaTime);
             rb2D.MovePosition(rb2D.position + Vector2.up * coeffMove * Time.deltaTime);
             ThrustersOn();
             animator.Play("Idle");
@@ -68,46 +71,34 @@ public class Inputs : MonoBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(Right))
         {
-            //ChangeSprite(right);
-            Debug.Log("Joueur se déplace vers la droite");
-            //myTransform.Translate(Vector3.right * coeffMove * Time.deltaTime);
             rb2D.MovePosition(rb2D.position + Vector2.right * coeffMove * Time.deltaTime);
-            rb2D.MoveRotation(- coeffRot * Time.deltaTime);
             ThrustersOn();
+            transformSprite.Rotate(-turnAngle);
             animator.Play("AnimationDroite");
         }
 
         else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(Left))
         {
-            //ChangeSprite(left);
-            Debug.Log("Joueur se déplace vers la gauche");
             rb2D.MovePosition(rb2D.position + Vector2.left * coeffMove * Time.deltaTime);
-            //myTransform.Translate(Vector3.left * coeffMove * Time.deltaTime);
-            rb2D.MoveRotation(coeffRot * Time.deltaTime);
             ThrustersOn();
+            transformSprite.Rotate(turnAngle);
             animator.Play("AnimationGauche");
         }
 
         else
         {
-            //ChangeSprite(straight);
-            ThrustersOff();
             animator.Play("Idle");
+            if (transformSprite.rotation.z < 0)
+            {
+                transformSprite.Rotate(turnAngle * 2);
+            }
+            else if (transformSprite.rotation.z > 0)
+            {
+                transformSprite.Rotate(-turnAngle * 2);
+            }
         }
-
-
-        /*if (myTransform.rotation != originalRotation)
-        {
-            if (myTransform.rotation.z < 0 && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(Left))
-            {
-               myTransform.Rotate(0, 0, coeffRot * Time.deltaTime);
-            }
-            if (myTransform.rotation.z > 0 && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(Right))
-            {
-                myTransform.Rotate(0, 0, -coeffRot * Time.deltaTime);
-            }
-        }*/
     }
+
     void ThrustersOff()
     {
         Thrusters.SetActive(false);

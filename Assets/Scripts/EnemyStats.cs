@@ -1,16 +1,15 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class EnemyStats : MonoBehaviour
 {
+    //private AudioSource explosionSound;
+
     [SerializeField]
     private int life;
     [SerializeField]
     public int scoreGain;
-    [SerializeField]
-    private GameObject Player;
     [SerializeField]
     private GameObject explosion;
 
@@ -19,6 +18,7 @@ public class EnemyStats : MonoBehaviour
     private void Start()
     {
         gameControl = GameObject.Find("GameControl");
+        //explosionSound = gameObject.GetComponent<AudioSource>();
     }
 
     public void LoseLife(int strength)
@@ -34,12 +34,14 @@ public class EnemyStats : MonoBehaviour
             }
 
             int scoreGain = gameObject.GetComponent<EnemyStats>().scoreGain;
+
             gameControl.GetComponent<ScoreControl>().IncScore(scoreGain);
+
             if (explosion != null)
             {
+                //explosionSound.Play();
                 var exploder = gameObject.GetComponent<EnemyStats>().explosion;
                 GameObject destruction = Instantiate(exploder, gameObject.transform.position, Quaternion.identity);
-                Destroy(destruction, 0.2f);
             }
             Destroy(gameObject);
         }

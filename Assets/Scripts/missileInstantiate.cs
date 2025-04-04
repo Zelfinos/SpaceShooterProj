@@ -16,9 +16,18 @@ public class MissileInstantiate : MonoBehaviour
     [SerializeField]
     private Transform vaisseau;
     [SerializeField]
+    private float reculAmount;
+    [SerializeField]
     private float fireRate = 1f;
 
     private float nextFire = 0f;
+
+    private AudioSource shootSound;
+
+    private void Start()
+    {
+        shootSound = GetComponent<AudioSource>();
+    }
 
     void Update()
     {
@@ -26,6 +35,7 @@ public class MissileInstantiate : MonoBehaviour
         {
             if (Time.time > nextFire)
             {
+                shootSound.Play();
                 nextFire = Time.time + fireRate;
                 GameObject missile1 = Instantiate(prefab, SPoint1.position, vaisseau.rotation);
                 missile1.transform.parent = parentRootTransform;

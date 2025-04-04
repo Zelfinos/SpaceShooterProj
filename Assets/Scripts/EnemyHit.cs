@@ -1,8 +1,4 @@
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.Android.LowLevel;
 
 public class EnemyHit : MonoBehaviour
 {
@@ -12,10 +8,14 @@ public class EnemyHit : MonoBehaviour
     private string rivalTag;
 
     private GameObject gameControl;
+    private GameObject audioControl;
+    private AudioSource hitSound;
 
     private void Start()
     {
         gameControl = GameObject.Find("GameControl");
+        audioControl = GameObject.Find("AudioControl");
+        hitSound = audioControl.GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,6 +27,13 @@ public class EnemyHit : MonoBehaviour
             if (collision.gameObject.CompareTag("Player"))
             {
                 gameControl.GetComponent<ScoreControl>().DecLife(missileStrength);
+            }
+            if (hitSound != null)
+            {
+                if (collision.gameObject.name != "MissileEnemy1" && collision.gameObject.name != "MissileEnemy2" && collision.gameObject.name != "MissileEnemy3" && !collision.gameObject.CompareTag("PlayerMissile"))
+                {
+                    hitSound.Play();
+                }
             }
             Destroy(gameObject);
         }

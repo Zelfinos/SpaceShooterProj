@@ -21,11 +21,18 @@ public class MissileEnemyScript : MonoBehaviour
     private float FireRate;
 
     private float NextFire = 0f;
+    private AudioSource fireSound;
+
+    private void Start()
+    {
+        fireSound = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
        if (Time.time > NextFire)
        {
+            fireSound.Play();
             FireRate = UnityEngine.Random.Range(FireRateMin, FireRateMax);
             NextFire = Time.time + FireRate;
             GameObject missile1 = Instantiate(prefab, SPoint1.position, vaisseau.rotation);
