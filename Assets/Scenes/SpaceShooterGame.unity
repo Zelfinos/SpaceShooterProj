@@ -2337,8 +2337,8 @@ MonoBehaviour:
   SpawnTimer2: 10
   SpawnTimer3: 10
   gameControl: {fileID: 4298191464030175286}
-  minScoreEnemy1: 0
-  minScoreEnemy2: 0
+  minScoreEnemy1: 5000
+  minScoreEnemy2: 5000
   minScoreEnemy3: 0
 --- !u!1 &1840383083
 GameObject:
