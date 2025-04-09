@@ -35,7 +35,7 @@ public class EnemyHit : MonoBehaviour
                     hitSound.Play();
                 }
             }
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
