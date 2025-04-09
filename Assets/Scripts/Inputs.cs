@@ -40,7 +40,6 @@ public class Inputs : MonoBehaviour
 
     private Rigidbody2D rb2D;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
@@ -50,7 +49,6 @@ public class Inputs : MonoBehaviour
         Thrusters = GameObject.Find("Thrusters");
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         ThrustersOff();

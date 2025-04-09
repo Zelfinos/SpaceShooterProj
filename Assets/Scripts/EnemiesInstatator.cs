@@ -28,6 +28,7 @@ public class EnemiesInstatator : MonoBehaviour
     private float SpawnTime3;
 
     private int score;
+
     [SerializeField]
     private int minScoreEnemy1;
     [SerializeField]
